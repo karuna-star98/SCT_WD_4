@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do App</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    background:#f0f4f8;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    width:360px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.input-section{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+input{
+    padding:8px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    padding:8px;
+    border:none;
+    background:#5c7cfa;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.sort-btn{
+    margin-top:10px;
+    background:#20c997;
+}
+
+ul{
+    list-style:none;
+    margin-top:15px;
+}
+
+li{
+    background:#e9ecef;
+    margin:8px 0;
+    padding:10px;
+    border-radius:5px;
+}
+
+.task-text{
+    cursor:pointer;
+}
+
+.completed{
+    text-decoration:line-through;
+    color:gray;
+}
+
+small{
+    display:block;
+    margin-top:3px;
+    color:#666;
+}
+
+.actions{
+    margin-top:5px;
+    display:flex;
+    justify-content:space-between;
+    font-size:0.8rem;
+}
+
+.actions span{
+    cursor:pointer;
+}
+
+.delete{
+    color:red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>To-Do List</h2>
+
+    <div class="input-section">
+        <input type="text" id="taskInput" placeholder="Enter task">
+        <input type="datetime-local" id="taskTime">
+        <button onclick="addTask()">Add Task</button>
+        <button class="sort-btn" onclick="sortTasks()">Sort by Date</button>
+    </div>
+
+    <ul id="taskList"></ul>
+</div>
+
+<script>
+function addTask(){
+    let text = document.getElementById("taskInput").value.trim();
+    let time = document.getElementById("taskTime").value;
+
+    if(text === "") return;
+
+    let li = document.createElement("li");
+
+    li.setAttribute("data-time", time);
+
+    li.innerHTML = `
+        <div class="task-text" onclick="toggleTask(this)">${text}</div>
+        <small>${time ? time : "No date set"}</small>
+        <div class="actions">
+            <span onclick="editTask(this)">Edit</span>
+            <span class="delete" onclick="deleteTask(this)">Delete</span>
+        </div>
+    `;
+
+    document.getElementById("taskList").appendChild(li);
+
+    document.getElementById("taskInput").value = "";
+    document.getElementById("taskTime").value = "";
+}
+
+function deleteTask(el){
+    el.closest("li").remove();
+}
+
+function toggleTask(el){
+    el.classList.toggle("completed");
+}
+
+function editTask(el){
+    let li = el.closest("li");
+    let textDiv = li.querySelector(".task-text");
+
+    let newText = prompt("Edit your task:", textDiv.textContent);
+
+    if(newText !== null && newText.trim() !== ""){
+        textDiv.textContent = newText.trim();
+    }
+}
+
+function sortTasks(){
+    let list = document.getElementById("taskList");
+    let items = Array.from(list.children);
+
+    items.sort((a, b) => {
+        return new Date(a.dataset.time) - new Date(b.dataset.time);
+    });
+
+    list.innerHTML = "";
+    items.forEach(item => list.appendChild(item));
+}
+</script>
+
+</body>
+</html>
