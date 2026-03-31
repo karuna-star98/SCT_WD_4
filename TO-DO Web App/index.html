@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>To-Do App</title>
+
+
+</head>
+
+<body>
+<script src="script.js"></script>
+<div class="container">
+
+    <div class="top">
+        <h2>📝 To-Do</h2>
+        <button onclick="toggleTheme()" id="themeBtn">🌙</button>
+    </div>
+
+    <input type="text" id="taskInput" placeholder="Enter task">
+    <input type="datetime-local" id="taskTime">
+
+    <select id="priority">
+        <option value="low">Low Priority</option>
+        <option value="medium">Medium Priority</option>
+        <option value="high">High Priority</option>
+    </select>
+
+    <input type="text" id="search" placeholder="Search task..." onkeyup="searchTask()">
+
+    <button class="add-btn" onclick="addTask()">Add Task</button>
+    <button class="sort-btn" onclick="sortTasks()">Sort by Date</button>
+    <button class="clear-btn" onclick="clearAll()">Clear All</button>
+
+    <ul id="taskList"></ul>
+
+    <div class="counter" id="counter"></div>
+</div>
+
+</body>
+</html>
